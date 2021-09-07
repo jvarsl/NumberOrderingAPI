@@ -24,17 +24,22 @@ namespace NumberOrderingAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult PostNumbers([FromQuery] string input)
+        public ActionResult PostNumbers([FromQuery] string input) //[FromBody] string[] input - if we accept json body
         {
             //validation and conversion to list
             List<BigInteger> valuesList;
             try
             {
-                valuesList = Methods.ETLTools.StringToBigIntArray(input);
+                valuesList = Methods.ETLTools.StringToBigIntArray(input); //input.FirstOrDefault() - if we accept json body
             }
             catch (ArgumentException e)
             {
-                return BadRequest(e.Message);
+                if (e is ArgumentException || e is ArgumentNullException)
+                {
+                    return BadRequest(e.Message);
+                }
+
+                throw;
             }
 
             //sorting and writting results into file

@@ -9,6 +9,7 @@ namespace NumberOrderingAPI.Methods
     {
         public static List<BigInteger> StringToBigIntArray(string input)
         {
+            if (input is null) throw new ArgumentNullException();
             var inputValues = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             var values = new List<BigInteger>();
             foreach (var item in inputValues)
@@ -37,6 +38,7 @@ namespace NumberOrderingAPI.Methods
         }
         public static void WriteIntoFile(List<BigInteger> list)
         {
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
             File.WriteAllText(filePath, string.Join(" ", list));
         }
 
